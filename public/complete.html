@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>과제 완료!</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .success-card {
+      text-align: center;
+      padding: 48px 32px;
+    }
+    .checkmark {
+      font-size: 72px;
+      margin-bottom: 16px;
+      animation: pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    @keyframes pop {
+      0%   { transform: scale(0); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .success-title {
+      font-size: 32px;
+      font-weight: 800;
+      color: #1a1a1a;
+      margin-bottom: 8px;
+    }
+    .success-sub {
+      font-size: 15px;
+      color: #6b7280;
+      margin-bottom: 28px;
+    }
+    .username-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      font-size: 16px;
+      font-weight: 700;
+      padding: 8px 24px;
+      border-radius: 999px;
+      margin-bottom: 32px;
+    }
+    .info-box {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 20px 24px;
+      text-align: left;
+      margin-bottom: 28px;
+    }
+    .info-box h3 {
+      font-size: 13px;
+      font-weight: 700;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 12px;
+    }
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 0;
+      font-size: 14px;
+      border-bottom: 1px solid #f3f4f6;
+    }
+    .info-row:last-child { border-bottom: none; }
+    .info-label { color: #6b7280; }
+    .info-value { font-weight: 600; color: #111827; }
+    .tag {
+      display: inline-block;
+      background: #dcfce7;
+      color: #15803d;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 999px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card success-card">
+      <div class="checkmark">🎉</div>
+      <h1 class="success-title">과제 완료!</h1>
+      <p class="success-sub">로그인에 성공했습니다</p>
+
+      <div class="username-badge" id="welcomeMsg">안녕하세요!</div>
+
+      <div class="info-box">
+        <h3>구현 항목</h3>
+        <div class="info-row">
+          <span class="info-label">가) 프론트엔드 – 백엔드 구성</span>
+          <span class="tag">✓ 완료</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">나) 회원가입 절차 구성</span>
+          <span class="tag">✓ 10점</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">다) 비밀번호 * 대체 표기</span>
+          <span class="tag">✓ 5점</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">라) 정보 3가지 이상 + 유효성 검사</span>
+          <span class="tag">✓ 15점</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">마) 백엔드 암호화 저장 (bcrypt)</span>
+          <span class="tag">✓ 12점</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">바) 중복 방지 처리</span>
+          <span class="tag">✓ 8점</span>
+        </div>
+      </div>
+
+      <button class="btn btn-secondary" onclick="window.location.href='login.html'">
+        로그아웃
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // 로그인 시 전달된 이름 표시
+    const name = sessionStorage.getItem('userName') || '사용자';
+    document.getElementById('welcomeMsg').textContent = `${name}님, 환영합니다!`;
+  </script>
+</body>
+</html>

@@ -32,7 +32,8 @@ loginForm.addEventListener('submit', async (e) => {
     const data = await res.json();
 
     if (data.success) {
-      showMessage(data.message, 'success');
+      sessionStorage.setItem('userName', data.name || username);
+      window.location.href = 'complete.html';
     } else {
       showMessage(data.message, 'error');
     }

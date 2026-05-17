@@ -162,7 +162,7 @@ app.post('/api/login', async (req, res) => {
       return res.status(401).json({ success: false, message: '아이디 또는 비밀번호가 일치하지 않습니다.' });
     }
 
-    return res.json({ success: true, message: `환영합니다, ${user.name}님!` });
+    return res.json({ success: true, message: `환영합니다, ${user.name}님!`, name: user.name });
 
   } catch (err) {
     console.error('Login error:', err);
