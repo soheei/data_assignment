@@ -1,0 +1,13 @@
+{
+  "name": "signup-service",
+  "version": "1.0.0",
+  "description": "데이터 통신 과제 - 회원가입 서비스",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.21.0"
+  }
+}
