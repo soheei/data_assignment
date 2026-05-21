@@ -91,7 +91,7 @@ function validateField(fieldName) {
 }
 
 // ----------------------------------------
-// 중복 확인 (서버 호출)
+// 중복 확인 (서버 호출) — blur 시 실행
 // ----------------------------------------
 async function checkDuplicate(field) {
   const input = document.getElementById(field);
@@ -100,11 +100,24 @@ async function checkDuplicate(field) {
 
   if (!validState[field]) return; // 형식이 맞을 때만 중복 검사
 
+  // 검사 완료 전까지 제출 막기
+  validState[field] = false;
+  hint.className = 'hint';
+  hint.textContent = '중복 확인 중...';
+
   try {
     const res = await fetch(`/api/check?field=${field}&value=${encodeURIComponent(value)}`);
     const data = await res.json();
 
-    if (!data.available) {
+    if (data.available) {
+      input.classList.remove('invalid');
+      input.classList.add('valid');
+      hint.className = 'hint success';
+      hint.textContent = field === 'username'
+        ? '✓ 사용 가능한 아이디'
+        : '✓ 사용 가능한 이메일';
+      validState[field] = true;
+    } else {
       input.classList.remove('valid');
       input.classList.add('invalid');
       hint.className = 'hint error';
@@ -114,21 +127,33 @@ async function checkDuplicate(field) {
       validState[field] = false;
     }
   } catch (err) {
-    // 네트워크 오류는 무시 (제출 시 서버에서 다시 확인됨)
+    // 네트워크 오류 시 다시 형식 검사 상태로 복구
+    input.classList.remove('invalid');
+    input.classList.add('valid');
+    hint.className = 'hint success';
+    hint.textContent = HINTS[field].success;
+    validState[field] = true;
   }
 }
 
 // ----------------------------------------
 // 이벤트 리스너 등록
 // ----------------------------------------
+let usernameDebounceTimer = null;
+
 ['username', 'password', 'passwordConfirm', 'email', 'name'].forEach(field => {
   const input = document.getElementById(field);
-  // 입력할 때마다 형식 검사
   input.addEventListener('input', () => {
     validateField(field);
-    // 비밀번호가 변경되면 비밀번호 확인도 다시 검사
     if (field === 'password' && document.getElementById('passwordConfirm').value) {
       validateField('passwordConfirm');
+    }
+    // 아이디 입력 중 중복 확인 (0.5초 멈추면 체크)
+    if (field === 'username') {
+      clearTimeout(usernameDebounceTimer);
+      if (validState['username']) {
+        usernameDebounceTimer = setTimeout(() => checkDuplicate('username'), 500);
+      }
     }
   });
 });
